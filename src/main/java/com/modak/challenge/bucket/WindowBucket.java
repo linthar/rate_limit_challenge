@@ -10,10 +10,14 @@ public class WindowBucket {
 
     public static final String WINDOW_BUCKET_IS_FULL_MESSAGE = "Window Bucket is full";
 
+    // window time
     protected long timesliceSeconds;
 
+    // max size of the Window
     protected int bucketSize;
 
+    // is a sorted linked list of sent notifications timestamps
+    // list size must be <=< bucketSize
     protected LinkedList<Long> timestampsList;
 
     public WindowBucket(long timesliceSeconds, int bucketSize) {
