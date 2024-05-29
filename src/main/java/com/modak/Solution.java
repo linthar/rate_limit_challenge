@@ -17,11 +17,11 @@ class Solution {
         service.send("marketing", "user", "marketing 3");
         service.send("marketing", "another user", "marketing 1");
         service.send("update", "user", "update 1");
-
+        service.send("news", "user", "news 1");
 
         // this one will be rejected (WindowBucket will fail throwing a RateLimitExceededException)
         // and NotificationServiceImpl will not sent the message to Gateway
-        service.send("marketing", "user", "marketing 4");
+        service.send("marketing", "user", "marketing 4 must fail");
 
     }
 
