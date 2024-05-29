@@ -59,7 +59,6 @@ The main class is the *WindowBucket* that implements a sliding window with this 
 ```java
 
 
-
 /**
  * try to add a new Notification if there is room in this window bucket
  * throws RateLimitExceededException if bucket is full
@@ -70,7 +69,7 @@ public synchronized void addNotification() {
 }
 
 /**
- * INNER METHOD: Created to be this class testable
+ * INNER METHOD: Created to make this class more testable
  * <p>
  * try to add a new Notification if there is room in this window bucket
  *
@@ -83,14 +82,13 @@ protected void add(Long notificationTimeInSeconds) {
 
     if (timestampsList.size() < bucketSize) {
         // there is room for another notification in the bucket
-        // timestamps are stored from descending in order (oldest go last)
+        // timestamps are stored from descending in order (oldest go fist, the new is added at last)
         timestampsList.addLast(notificationTimeInSeconds);
     } else {
         // check if there is room for a new notification
         throw new RateLimitExceededException(WINDOW_BUCKET_IS_FULL_MESSAGE);
     }
 }
-
 
 ```
 

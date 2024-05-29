@@ -37,7 +37,7 @@ public class WindowBucket {
     }
 
     /**
-     * INNER METHOD: Created to be this class testable
+     * INNER METHOD: Created to make this class more testable
      * <p>
      * try to add a new Notification if there is room in this window bucket
      *
@@ -50,7 +50,7 @@ public class WindowBucket {
 
         if (timestampsList.size() < bucketSize) {
             // there is room for another notification in the bucket
-            // timestamps are stored from descending in order (oldest go last)
+            // timestamps are stored from descending in order (oldest go fist, the new is added at last)
             timestampsList.addLast(notificationTimeInSeconds);
         } else {
             // check if there is room for a new notification
@@ -61,7 +61,6 @@ public class WindowBucket {
     /**
      * Clean expired timestamps from bucket
      * keeps only the timestamps that apply this bucket window based on currentTimeInSeconds
-     *
      *
      * @param currentTimeInSeconds the timestamp in Seconds to clean the bucket
      */
@@ -76,24 +75,24 @@ public class WindowBucket {
     }
 
 
-
-
-    protected void removeIfFromTimestampsList(Predicate<? super Long> filter){
+    protected void removeIfFromTimestampsList(Predicate<? super Long> filter) {
         // this is an optimization to avoid O(n) by calling:
         //   timestampsList.removeIf(ts -> (currentTimeInSeconds - ts) > timesliceSeconds);
+
+
+        // timestamps are stored from descending in order (oldest go fist, the new is added at last)
         // list is sorted by ts (ascending)
         // so we can stop at the first element that does not match
-
-            Iterator<Long> each = timestampsList.iterator();
-            boolean mustRemove = true;
-            while(each.hasNext() && mustRemove) {
-                mustRemove = filter.test(each.next());
-                if (mustRemove) {
-                    each.remove();
-                }
+        Iterator<Long> each = timestampsList.iterator();
+        boolean mustRemove = true;
+        while (each.hasNext() && mustRemove) {
+            mustRemove = filter.test(each.next());
+            if (mustRemove) {
+                each.remove();
             }
-
         }
+
+    }
 
 
 }
