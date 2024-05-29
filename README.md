@@ -17,7 +17,7 @@ execute the script:
 ```bash
 ./test.sh
 ```
-build and test the project and open jacoco test coverage report in firefox web browser
+build and test the project ... and then open jacoco test coverage report in a firefox web browser
 
 (edit ./test.sh file to change webBrowser binary to open [PROJECT_ROOT]/build/jacocoHtml web page report)
 
