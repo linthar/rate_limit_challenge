@@ -26,7 +26,7 @@ build and test the project ... and then open jacoco test coverage report in a fi
 
 NOTES :
 - This solution does not use any framework/DB to keep as simple as I can.
-- Users (and types) number is a "low number"... so a memory map is Ok for this example  
+- Users (and types) count is a "low number"... so a memory map is Ok for this example  
 - To scale we could move the buckets map to a REDIS (to handle distributed microservices replicas concurrency)
 
 
