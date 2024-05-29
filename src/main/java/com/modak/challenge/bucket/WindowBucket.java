@@ -50,7 +50,7 @@ public class WindowBucket {
 
         if (timestampsList.size() < bucketSize) {
             // there is room for another notification in the bucket
-            // timestamps are stored from descending in order (oldest go fist)
+            // timestamps are stored from descending in order (oldest go last)
             timestampsList.addLast(notificationTimeInSeconds);
         } else {
             // check if there is room for a new notification

@@ -54,25 +54,48 @@ The main class is the *WindowBucket* that implements a sliding window with this 
 ```
 
 
-- main method is inner method **add()**
+- main method is inner method **add()** ... that is called from public method **addNotification()**
 
 ```java
-    protected void add(Long notificationTimeInSeconds) {
-        // try to clean expired ts (ts that are outside current sliding window)
-        removeExpiredNotifications(notificationTimeInSeconds);
 
-        if (timestampsList.size() < bucketSize) {
-            // there is room for another notification in the bucket
-            // timestamps are stored from descending in order (oldest go fist)
-            timestampsList.addLast(notificationTimeInSeconds);
-        } else {
-            // check if there is room for a new notification
-            throw new RateLimitExceededException(WINDOW_BUCKET_IS_FULL_MESSAGE);
-        }
+
+
+/**
+ * try to add a new Notification if there is room in this window bucket
+ * throws RateLimitExceededException if bucket is full
+ */
+public synchronized void addNotification() {
+    Long timeNowSeconds = System.currentTimeMillis() / 1000;
+    add(timeNowSeconds);
+}
+
+/**
+ * INNER METHOD: Created to be this class testable
+ * <p>
+ * try to add a new Notification if there is room in this window bucket
+ *
+ * @param notificationTimeInSeconds notification TimeStamp in seconds
+ * @throws RateLimitExceededException if bucket is full
+ */
+protected void add(Long notificationTimeInSeconds) {
+    // try to clean expired ts (ts that are outside current sliding window)
+    removeExpiredNotifications(notificationTimeInSeconds);
+
+    if (timestampsList.size() < bucketSize) {
+        // there is room for another notification in the bucket
+        // timestamps are stored from descending in order (oldest go last)
+        timestampsList.addLast(notificationTimeInSeconds);
+    } else {
+        // check if there is room for a new notification
+        throw new RateLimitExceededException(WINDOW_BUCKET_IS_FULL_MESSAGE);
     }
+}
+
+
 ```
 
 
 removeExpiredNotifications will remove from the bucket list (a sorted linked list) the ts outside the window at a given time
 
+here is an example of the inner list for a rate limit of 3 msg each 5 secs: 
 ![windowBucket](./docs/windowBucket.png "windowBucket")
