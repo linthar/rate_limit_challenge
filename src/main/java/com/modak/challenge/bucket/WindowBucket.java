@@ -1,10 +1,12 @@
-package com.modak.challenge;
+package com.modak.challenge.bucket;
+
+import com.modak.challenge.exception.RateLimitExceededException;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Predicate;
 
-public class Bucket {
+public class WindowBucket {
 
     public static final String WINDOW_BUCKET_IS_FULL_MESSAGE = "Window Bucket is full";
 
@@ -14,7 +16,7 @@ public class Bucket {
 
     protected LinkedList<Long> timestampsList;
 
-    public Bucket(long timesliceSeconds, int bucketSize) {
+    public WindowBucket(long timesliceSeconds, int bucketSize) {
 
         this.bucketSize = bucketSize;
         this.timesliceSeconds = timesliceSeconds;
@@ -23,7 +25,7 @@ public class Bucket {
 
     /**
      * try to add a new Notification if there is room in this window bucket
-     * throws RuntimeException if bucket is full
+     * throws RateLimitExceededException if bucket is full
      */
     public synchronized void addNotification() {
         Long timeNowSeconds = System.currentTimeMillis() / 1000;
@@ -36,7 +38,7 @@ public class Bucket {
      * try to add a new Notification if there is room in this window bucket
      *
      * @param notificationTimeInSeconds notification TimeStamp in seconds
-     * @throws RuntimeException if bucket is full
+     * @throws RateLimitExceededException if bucket is full
      */
     protected void add(Long notificationTimeInSeconds) {
         // try to clean expired ts (ts that are outside current sliding window)
@@ -48,7 +50,7 @@ public class Bucket {
             timestampsList.addLast(notificationTimeInSeconds);
         } else {
             // check if there is room for a new notification
-            throw new RuntimeException(WINDOW_BUCKET_IS_FULL_MESSAGE);
+            throw new RateLimitExceededException(WINDOW_BUCKET_IS_FULL_MESSAGE);
         }
     }
 

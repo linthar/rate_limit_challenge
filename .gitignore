@@ -8,7 +8,7 @@ target/
 *.iws
 *.iml
 *.ipr
-
+example.txt
 ### Eclipse ###
 .apt_generated
 .classpath

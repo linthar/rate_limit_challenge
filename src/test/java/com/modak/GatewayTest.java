@@ -8,7 +8,7 @@ class GatewayTest {
 
     @Test
     void send() {
-        // just to add coverage
+        // just to add test coverage
         Gateway gateway = new Gateway();
         gateway.send("someUser", "some Message");
     }
