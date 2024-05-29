@@ -19,7 +19,8 @@ class Solution {
         service.send("update", "user", "update 1");
 
 
-        // this one will be rejected (fail throwing a RuntimeException)
+        // this one will be rejected (WindowBucket will fail throwing a RateLimitExceededException)
+        // and NotificationServiceImpl will not sent the message to Gateway
         service.send("marketing", "user", "marketing 4");
 
     }
