@@ -34,7 +34,7 @@ class NotificationServiceImpl implements NotificationService {
             // Assumption: this service will not throw any exception just avoid sending the message
             // and do something to keep track of it
 
-            System.out.println("rejected message: "+message);
+            System.out.println(" ---rejected--->  message: "+message+" to user: " + userId);
             // we should add some metric about rejections
 
         }
